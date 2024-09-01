@@ -19,20 +19,34 @@ public class Player : MonoBehaviour
         direction = Vector3.zero;
     } 
 
-    private void Update()
+   private void Update()
+{
+    direction += Vector3.down * gravity * Time.deltaTime;
+
+    if (character.isGrounded)
     {
-        direction += Vector3.down * gravity * Time.deltaTime;
-
-        if (character.isGrounded)
+        // Handle touch input for Android
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            // direction = Vector3.down;
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                direction = Vector3.up * jump;
-            }
+            direction = Vector3.up * jump;
         }
 
-        character.Move(direction * Time.deltaTime);
+        // Handle keyboard input for PC
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            direction = Vector3.up * jump;
+        }
+    }
+
+    character.Move(direction * Time.deltaTime);
+}
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 }
