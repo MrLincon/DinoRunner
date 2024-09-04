@@ -48,7 +48,13 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         spawner = FindObjectOfType<Spawner>();
 
-        NewGame();
+        enabled = false;
+        startGame.gameObject.SetActive(true);
+        player.gameObject.SetActive(false);
+        spawner.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+        retry.gameObject.SetActive(false);
+       
 
     }
 
@@ -64,7 +70,8 @@ public class GameManager : MonoBehaviour
 
         gameSpeed = initialGameSpeed;
         enabled = true;
-
+        
+        startGame.gameObject.SetActive(false);
         player.gameObject.SetActive(true);
         spawner.gameObject.SetActive(true);
 
@@ -96,6 +103,9 @@ public class GameManager : MonoBehaviour
 
         gameOverText.gameObject.SetActive(true);
         retry.gameObject.SetActive(true);
+
+        spawner.elapsedTime = 0f;
+        spawner.isFirstPhase = true;
 
         
 
